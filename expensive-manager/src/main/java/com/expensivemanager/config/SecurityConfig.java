@@ -18,22 +18,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers(
-                    "/v3/api-docs/**",
-                    "/swagger-ui.html",
-                    "/swagger-ui/**",
-                    "/swagger-resources/**",
-                    "/webjars/**",
-                    "/h2-console/**", // Remove if you don't want H2 console open
-                    "/api/users/register"    // <--- Add this line
-                ).permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
             )
-            .csrf(csrf -> csrf.disable()); // Disable CSRF for development only
-
-        // (Optional) Allow frames for H2 console
-        http.headers(headers -> headers.frameOptions().disable());
-
+            .csrf(csrf -> csrf.disable());
         return http.build();
     }
+
 }

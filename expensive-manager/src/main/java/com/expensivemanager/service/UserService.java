@@ -1,5 +1,6 @@
 package com.expensivemanager.service;
 
+import com.expensivemanager.dto.UserLoginDto;
 import com.expensivemanager.dto.UserRegistrationDto;
 import com.expensivemanager.model.User;
 import com.expensivemanager.repository.UserRepository;
@@ -14,6 +15,24 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    /**
+     * Logic that authenticate user login info
+     * @param dto UserLoginDto
+     * @return 
+     */
+    public String login(UserLoginDto dto) {
+        User user = userRepository.findByUsername(dto.getUsername())
+                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid username or password");
+        }
+        return jwtUtil.generateToken(user.getUsername());
+    } 
+
 
     public User registerUser(UserRegistrationDto dto) {
         // Check if username or email already exists
@@ -34,3 +53,4 @@ public class UserService {
         return userRepository.save(user);
     }
 }
+
