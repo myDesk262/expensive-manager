@@ -19,10 +19,12 @@ public class UserService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    /**
-     * Logic that authenticate user login info
-     * @param dto UserLoginDto
-     * @return 
+   /**
+     * Authenticates a user and generates a JWT if successful.
+     *
+     * @param dto login request data (username and password)
+     * @return JWT token string if authentication succeeds
+     * @throws RuntimeException if credentials are invalid
      */
     public String login(UserLoginDto dto) {
         User user = userRepository.findByUsername(dto.getUsername())
