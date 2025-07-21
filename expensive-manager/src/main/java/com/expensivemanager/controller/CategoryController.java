@@ -3,6 +3,7 @@ package com.expensivemanager.controller;
 import com.expensivemanager.dto.CategoryDto;
 import com.expensivemanager.model.Category;
 import com.expensivemanager.model.User;
+import com.expensivemanager.repository.UserRepository;
 import com.expensivemanager.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +28,9 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     /**
      * Creates a new category for the authenticated user.
      *
@@ -34,11 +40,17 @@ public class CategoryController {
      */
     @PostMapping
     public ResponseEntity<CategoryDto> createCategory(
-            @AuthenticationPrincipal User user,
+            Principal principal, // <-- change here!
             @RequestBody @Valid CategoryDto dto) {
+
+        // Look up User by username for real logic
+        User user = userRepository.findByUsername(principal.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         Category category = categoryService.createCategory(user, dto);
         return ResponseEntity.ok(toDto(category));
     }
+
 
     /**
      * Retrieves all categories for the authenticated user,
