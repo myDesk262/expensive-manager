@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.expensivemanager.model.Expense;
 import com.expensivemanager.service.ExpenseService;
-import com.expensivemanager.service.UserService;
-
 
 /**
  * REST controller for expense-related operations.
