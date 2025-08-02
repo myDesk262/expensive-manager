@@ -17,4 +17,13 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
      * @return List of expenses belonging to the user
      */
     List<Expense> findByUserId(Long userId);
+
+     /**
+     * Finds all expenses for a given group.
+     *
+     * @param groupId ID of the group
+     * @return List of expenses belonging to the group
+     */
+    List<Expense> findByGroupId(Long groupId);
+
 }
