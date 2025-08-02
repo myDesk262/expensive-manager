@@ -54,4 +54,15 @@ public class Expense {
     @JoinColumn(name = "user_id")
     private User user;
 
+    /**
+     * Expense group (e.g., Family, Friends, Personal/Self).
+     */
+    @ManyToOne
+    @JoinColumn(name = "group_id", nullable = true)
+    private Group group;
+
+    // For personal expenses, group is null.
+    // For group expenses, link to group and record splits.
+
+
 }

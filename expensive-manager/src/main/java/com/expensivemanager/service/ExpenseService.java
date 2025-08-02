@@ -74,4 +74,14 @@ public class ExpenseService {
             return expenseRepository.save(expense);
         });
     }
+
+    /**
+     * Retrieves all expenses for a group.
+     * @param groupId Group ID.
+     * @return List of group expenses.
+     */
+    public List<Expense> getExpensesByGroupId(Long groupId) {
+        return expenseRepository.findByGroupId(groupId);
+    }
+
 }
